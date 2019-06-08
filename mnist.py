@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from sklearn.datasets import fetch_openml
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.naive_bayes import GaussianNB
@@ -54,7 +55,15 @@ def naive_bayes(X_train, X_test, Y_train, Y_test):
 
 
 def mlp(X_train, X_test, Y_train, Y_test):
-    model = MLPClassifier(hidden_layer_sizes=(28,))
+    model = MLPClassifier(hidden_layer_sizes=(98,))
+    model.fit(X_train, Y_train)
+    print('Accuracy on train dataset: ' + format(model.score(X_train, Y_train), TextFormat.OKGREEN))
+    print('Accuracy on test dataset: ' + format(model.score(X_test, Y_test), TextFormat.OKGREEN))
+    return model
+
+
+def random_forest(X_train, X_test, Y_train, Y_test):
+    model = RandomForestClassifier(n_estimators=100)
     model.fit(X_train, Y_train)
     print('Accuracy on train dataset: ' + format(model.score(X_train, Y_train), TextFormat.OKGREEN))
     print('Accuracy on test dataset: ' + format(model.score(X_test, Y_test), TextFormat.OKGREEN))
@@ -79,6 +88,7 @@ def main():
     model1 = train_model('Decision tree', decision_tree, X_train, X_test, Y_train, Y_test)
     model2 = train_model('Multilayer perceptron', mlp, X_train, X_test, Y_train, Y_test)
     model3 = train_model('Naive bayes', naive_bayes, X_train, X_test, Y_train, Y_test)
+    model4 = train_model('Random forest', random_forest, X_train, X_test, Y_train, Y_test)
 
 
 if __name__ == '__main__':
